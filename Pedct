@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import yt_dlp
 import os
 
-# Solicita um link ao usuário
+
 url = input("Digite o link da página que deseja analisar ou um vídeo do YouTube: ")
 
 # Pasta onde os arquivos serão salvos
@@ -30,7 +30,7 @@ def baixar_video_youtube(url):
         ydl.download([url])
     print("Download do vídeo do YouTube concluído!")
 
-# Verifica se o link é do YouTube
+
 if "youtube.com" in url or "youtu.be" in url:
     baixar_video_youtube(url)
 else:
@@ -38,21 +38,19 @@ else:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Encontra imagens e vídeos comuns na página
     imagens = [img['src'] for img in soup.find_all('img') if 'src' in img.attrs]
     videos = [video['src'] for video in soup.find_all('video') if 'src' in video.attrs]
 
-    # Lista os arquivos encontrados
     midia = imagens + videos
     print("\nArquivos encontrados:")
     for i, media_url in enumerate(midia, 1):
         print(f"{i}. {media_url}")
 
-    # Pergunta quais arquivos o usuário quer baixar
+
     opcoes = input("\nDigite os números dos arquivos que deseja baixar, separados por vírgula: ")
     selecionados = [midia[int(i) - 1] for i in opcoes.split(",") if i.isdigit() and 1 <= int(i) <= len(midia)]
 
-    # Baixar os arquivos selecionados
+
     for media_url in selecionados:
         if media_url.startswith("http"):
             baixar_arquivo(media_url, "downloads")
