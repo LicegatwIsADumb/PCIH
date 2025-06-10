@@ -1,58 +1,37 @@
-import requests
-from bs4 import BeautifulSoup
-import yt_dlp
-import os
+nrutwy wjvzjxyx
+kwtr gx4 nrutwy GjfzynkzqXtzu
+nrutwy dy_iqu
+nrutwy tx
 
 
-url = input("Digite o link da página que deseja analisar ou um vídeo do YouTube: ")
+zwq = nsuzy("Inlnyj t qnsp if udlnsf vzj ijxjof fsfqnxfw tz zr apijt it DtzYzgj: ")
 
-# Pasta onde os arquivos serão salvos
-os.makedirs("downloads", exist_ok=True)
+# Ufxyf tsij tx fwvznatx xjwft xfqatx
+tx.rfpjinwx("itbsqtfix", jcnxy_tp=Ywzj)
 
-def baixar_arquivo(url, pasta):
-    """Faz o download de um arquivo de mídia comum (imagem ou vídeo)"""
-    nome_arquivo = os.path.join(pasta, url.split("/")[-1])
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        with open(nome_arquivo, "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
-    print(f"Baixado: {nome_arquivo}")
+ijk gfncfw_fwvznat(zwq, ufxyf):
+    """Kfe t itbsqtfi ij zr fwvznat ij rpinf htrzr (nrfljr tz apijt)"""
+    strj_fwvznat = tx.ufym.otns(ufxyf, zwq.xuqny("/")[-1])
+    bnym wjvzjxyx.ljy(zwq, xywjfr=Ywzj) fx w:
+        w.wfnxj_ktw_xyfyzx()
+        bnym tujs(strj_fwvznat, "bg") fx k:
+            ktw hmzsp ns w.nyjw_htsyjsy(hmzsp_xnej=8192):
+                k.bwnyj(hmzsp)
+    uwnsy(k"Gfncfit: {strj_fwvznat}")
 
-def baixar_video_youtube(url):
-    """Usa yt-dlp para baixar vídeos do YouTube"""
-    ydl_opts = {
-    'format': 'best',
-    'outtmpl': 'downloads/%(title)s.%(ext)s'
+ijk gfncfw_anijt_dtzyzgj(zwq):
+    """Zxf dy-iqu ufwf gfncfw apijtx it DtzYzgj"""
+    diq_tuyx = {
+    'ktwrfy': 'gjxy',
+    'tzyyruq': 'itbsqtfix/%(ynyqj)x.%(jcy)x'
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
-    print("Download do vídeo do YouTube concluído!")
+    bnym dy_iqu.DtzyzgjIQ(diq_tuyx) fx diq:
+        diq.itbsqtfi([zwq])
+    uwnsy("Itbsqtfi it apijt it DtzYzgj htshqzpit!")
 
 
-if "youtube.com" in url or "youtu.be" in url:
-    baixar_video_youtube(url)
-else:
-    # Faz a requisição para analisar a página
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+nk "dtzyzgj.htr" ns zwq tw "dtzyz.gj" ns zwq:
+    gfncfw_anijt_dtzyzgj(zwq)
+...
 
-    imagens = [img['src'] for img in soup.find_all('img') if 'src' in img.attrs]
-    videos = [video['src'] for video in soup.find_all('video') if 'src' in video.attrs]
-
-    midia = imagens + videos
-    print("\nArquivos encontrados:")
-    for i, media_url in enumerate(midia, 1):
-        print(f"{i}. {media_url}")
-
-
-    opcoes = input("\nDigite os números dos arquivos que deseja baixar, separados por vírgula: ")
-    selecionados = [midia[int(i) - 1] for i in opcoes.split(",") if i.isdigit() and 1 <= int(i) <= len(midia)]
-
-
-    for media_url in selecionados:
-        if media_url.startswith("http"):
-            baixar_arquivo(media_url, "downloads")
-
-print("Processo concluído!")
